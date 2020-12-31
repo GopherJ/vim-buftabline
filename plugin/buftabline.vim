@@ -83,7 +83,7 @@ function! buftabline#render()
 		if strlen(bufpath)
 			let tab.path = fnamemodify(bufpath, ':p:~:.')
 			let tab.sep = strridx(tab.path, s:dirsep, strlen(tab.path) - 2) " keep trailing dirsep
-            let tab.label = WebDevIconsGetFileTypeSymbol(tab.path) . ' ' . tab.path[tab.sep + 1:]
+            let tab.label = tab.path[tab.sep + 1:]
 			let pre = screen_num
 			if getbufvar(bufnum, '&mod')
 				let tab.hilite = 'Modified' . tab.hilite
@@ -123,6 +123,9 @@ function! buftabline#render()
 	let currentside = lft
 	let lpad_width = strwidth(lpad)
 	for tab in tabs
+        if exists('*WebDevIconsGetFileTypeSymbol')
+            let tab.label = WebDevIconsGetFileTypeSymbol(tab.path) . ' ' . tab.label
+        endif
 		let tab.width = lpad_width + strwidth(tab.pre) + strwidth(tab.label) + 1
 		let tab.label = lpad . tab.pre . substitute(strtrans(tab.label), '%', '%%', 'g') . ' '
 		if centerbuf == tab.num
