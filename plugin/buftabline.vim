@@ -123,7 +123,7 @@ function! buftabline#render()
 	let currentside = lft
 	let lpad_width = strwidth(lpad)
 	for tab in tabs
-        if exists('*WebDevIconsGetFileTypeSymbol')
+        if exists('*WebDevIconsGetFileTypeSymbol') && has_key(tab, 'path')
             let tab.label = WebDevIconsGetFileTypeSymbol(tab.path) . ' ' . tab.label
         endif
 		let tab.width = lpad_width + strwidth(tab.pre) + strwidth(tab.label) + 1
